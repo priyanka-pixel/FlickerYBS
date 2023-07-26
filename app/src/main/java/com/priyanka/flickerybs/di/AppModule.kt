@@ -1,5 +1,7 @@
 package com.priyanka.flickerybs.di
 
+import android.app.Application
+import androidx.room.Room
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.priyanka.flickerybs.data.remote.apiservice.ApiService
@@ -20,41 +22,29 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
-    private const val CONNECTION_TIMEOUT_MS: Long = 10
+class AppModule {
+    private val okHttpClient = OkHttpClient()
+        .newBuilder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        })
+        .build()
 
     @Provides
-    @Singleton
-    fun provideFlickrRepository(apiService: ApiService): PhotoRepo {
+    fun providesRetrofit(): Retrofit = Retrofit.Builder()
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(ApiService.BASE_URL)
+        .build()
+
+    @Provides
+    fun providesApi(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+
+    @Provides
+    fun providesRepository(
+        apiService: ApiService,
+    ): PhotoRepo {
         return FlickrRepositoryImpl(apiService)
     }
-
-    @Provides
-    @Singleton
-    fun provideApiService(): ApiService {
-        return Retrofit.Builder()
-            .baseUrl(ApiService.BASE_URL)
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder()
-                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                        .create()
-                )
-            )
-            .client(
-                OkHttpClient.Builder().connectTimeout(
-                    CONNECTION_TIMEOUT_MS,
-                    TimeUnit.SECONDS
-                ).addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
-                }).build()
-            )
-            .build()
-            .create(ApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.Default
-
 }

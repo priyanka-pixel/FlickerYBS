@@ -34,7 +34,7 @@ fun SearchPhotoListingsScreen(
 
     // Launch a coroutine bound to the scope of the composable, viewModel relaunched
     LaunchedEffect(key1 = viewModel) {
-        viewModel.uiState
+        viewModel.onEvent(SearchPhotosEvent.LoadPhoto)
     }
 
     Column(

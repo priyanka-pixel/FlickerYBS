@@ -71,8 +71,7 @@ fun PhotoListScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
-                                        navController.navigate(route = "$SHOW_DETAIL_SCREEN/${photo.id
-                                        }")
+                                        navController.navigate(route = "$SHOW_DETAIL_SCREEN/${photo.id}")
                                     }
                                     .padding(8.dp)
                             )

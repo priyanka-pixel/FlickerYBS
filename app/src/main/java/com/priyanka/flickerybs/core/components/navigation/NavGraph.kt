@@ -29,8 +29,8 @@ fun NavGraph(navController: NavHostController,
             SettingScreen()
         }
 
-        composable("${SHOW_DETAIL_SCREEN}/{name}",
-            arguments = listOf(navArgument("name"){type= NavType.StringType})
+        composable("${SHOW_DETAIL_SCREEN}/{id}",
+            arguments = listOf(navArgument("id"){type= NavType.StringType})
         ) {
             PhotoDetailScreen( navController=navController, index = Int.MAX_VALUE)
         }

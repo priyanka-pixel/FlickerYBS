@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchPhotoViewModel @Inject constructor(
-    private val dispatcher: CoroutineDispatcher,
     private val repository: PhotoRepo
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchPhotoState())
@@ -29,28 +28,28 @@ class SearchPhotoViewModel @Inject constructor(
     fun onEvent(event: SearchPhotosEvent) {
         when (event) {
             is SearchPhotosEvent.Refresh -> {
-                getShowListings(fetchFromRemote = true)
+                getPhotoListings(fetchFromRemote = true)
             }
             is SearchPhotosEvent.OnSearchQueryChange -> {
                 _uiState.update { it.copy(searchQuery = event.query) }
 
                 searchJob = viewModelScope.launch {
                     delay(500L)
-                    getShowListings()
+                    getPhotoListings()
                 }
             }
             is SearchPhotosEvent.LoadPhoto -> {
-                getShowListings()
+                getPhotoListings()
             }
         }
     }
-    private fun getShowListings(
+    private fun getPhotoListings(
         query: String = _uiState.value.searchQuery.lowercase(),
 
         fetchFromRemote: Boolean = false
     ) {
-        viewModelScope.launch(dispatcher) {
-            repository.searchPhotos(searchText = "", userId = "")
+        viewModelScope.launch() {
+            repository.searchPhotos(query, fetchFromRemote.toString())
                 .collect { result ->
                     when (result) {
                         is Resource.Success -> {

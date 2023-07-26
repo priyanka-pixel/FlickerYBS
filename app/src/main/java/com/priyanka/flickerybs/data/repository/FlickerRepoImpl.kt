@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
-class FlickrRepositoryImpl(private val apiService: ApiService) : PhotoRepo {
+class FlickrRepositoryImpl @Inject constructor(private val apiService: ApiService) : PhotoRepo {
+
     override suspend fun getRecentPhotos(): Flow<Resource<List<Photo>>> = flow {
         emit(Resource.Loading())
         try {
@@ -28,7 +30,7 @@ class FlickrRepositoryImpl(private val apiService: ApiService) : PhotoRepo {
         }
     }.catch { e ->
         emit(Resource.Error("An error occurred: ${e.message}"))
-    }.flowOn(Dispatchers.IO)
+    }
 
     override suspend fun searchPhotos(searchText: String, userId: String?): Flow<Resource<List<Photo>>> = flow {
         emit(Resource.Loading())
@@ -47,5 +49,5 @@ class FlickrRepositoryImpl(private val apiService: ApiService) : PhotoRepo {
         }
     }.catch { e ->
         emit(Resource.Error("An error occurred: ${e.message}"))
-    }.flowOn(Dispatchers.IO)
+    }
 }

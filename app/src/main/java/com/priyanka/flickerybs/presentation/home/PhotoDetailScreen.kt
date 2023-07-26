@@ -32,15 +32,16 @@ fun PhotoDetailScreen(
     index: Int
 ) {
     val state = viewModel.uistate.collectAsState().value.photos[index]
-    // val photo = state.photos
+    //val photo = state.photos
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DarkBlue)
             .padding(16.dp)
-    ) {
-        state?.let { state ->
+    )
+    {
+        state.let { state ->
             val imagePainter = rememberAsyncImagePainter(state.url)
             val photoName = state.title
             TopAppBarContent(
