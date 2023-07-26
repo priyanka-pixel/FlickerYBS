@@ -8,6 +8,6 @@
     <string name="version_0_1">Version 1.0</string>
     <string name="setting_top_app_bar">Setting</string>
     <string name="about">About</string>
-    <string name="list_of_photos">List of Photo</string>
+    <string name="list_of_shows">List of Photo</string>
     <string name="about_text">This App provides list of Pictures. This app is a sample app to apply design pattern and architectures</string>
 </resources>

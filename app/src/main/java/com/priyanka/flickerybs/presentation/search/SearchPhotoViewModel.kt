@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.priyanka.flickerybs.domain.repository.PhotoRepo
 import com.priyanka.flickerybs.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,18 +42,19 @@ class SearchPhotoViewModel @Inject constructor(
             }
         }
     }
+
     private fun getPhotoListings(
         query: String = _uiState.value.searchQuery.lowercase(),
 
         fetchFromRemote: Boolean = false
     ) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             repository.searchPhotos(query, fetchFromRemote.toString())
                 .collect { result ->
                     when (result) {
                         is Resource.Success -> {
                             result.data?.let { listings ->
-                                _uiState.update { it.copy(photos=listings) }
+                                _uiState.update { it.copy(photos = listings) }
                             }
                             _uiState.value = _uiState.value.copy()
                         }

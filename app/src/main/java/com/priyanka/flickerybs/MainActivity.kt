@@ -10,14 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.priyanka.flickerybs.core.components.navigation.BottomNav
 import com.priyanka.flickerybs.core.components.navigation.NavGraph
+import com.priyanka.flickerybs.presentation.home.PhotosViewModel
 import com.priyanka.flickerybs.presentation.search.SearchPhotoViewModel
 import com.priyanka.flickerybs.ui.theme.FlickerYBSTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,18 +39,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun Photos() {
     val navController = rememberNavController()
-    val   photoListingViewModel: SearchPhotoViewModel = hiltViewModel()
+    val photoListingViewModel: SearchPhotoViewModel = hiltViewModel()
+    val viewModel: PhotosViewModel = hiltViewModel()
 
     Scaffold(
         bottomBar = { BottomNav(navController = navController) },
-        content = { padding -> Column(modifier = Modifier.padding(padding)){
-            NavGraph(navController = navController,
-                photoListingViewModel=photoListingViewModel
-            )
-        } },
+        content = { padding ->
+            Column(modifier = Modifier.padding(padding)) {
+                NavGraph(
+                    navController = navController,
+                    photoListingViewModel = photoListingViewModel,
+                    viewModel = viewModel
+                )
+            }
+        },
         backgroundColor = MaterialTheme.colors.surface,
         modifier = Modifier.fillMaxWidth()
     )

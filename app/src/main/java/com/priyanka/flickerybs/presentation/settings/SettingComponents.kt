@@ -2,9 +2,9 @@ package com.priyanka.flickerybs.presentation.settings
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.google.android.libraries.intelligence.acceleration.Analytics
 import com.priyanka.flickerybs.R
 
 class SettingComponents {

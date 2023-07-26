@@ -21,27 +21,22 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.priyanka.flickerybs.core.components.CustomCircularProgressBar
 import com.priyanka.flickerybs.core.components.PhotoItem
-import com.priyanka.flickerybs.core.components.navigation.SHOW_DETAIL_SCREEN
+import com.priyanka.flickerybs.core.components.navigation.PHOTO_DETAIL_SCREEN
 
 @Composable
 fun PhotoListScreen(
-    navController: NavController,
-    viewModel: SearchPhotoViewModel = hiltViewModel()
+    navController: NavController, viewModel: SearchPhotoViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val photos = uiState.photos
-
-
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = uiState.isRefreshing
     )
-
     // Launch a coroutine bound to the scope of the composable, viewModel relaunched
     LaunchedEffect(key1 = viewModel, block = {
         viewModel.onEvent(SearchPhotosEvent.LoadPhoto)
     })
 
-    if (photos.isNotEmpty()) {
+    if (uiState.photos.isNotEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -50,33 +45,27 @@ fun PhotoListScreen(
                 navController
             )
 
-            SwipeRefresh(
-                state = swipeRefreshState,
-                onRefresh = {
-                    viewModel.onEvent(SearchPhotosEvent.Refresh)
-                }
-            ) {
+            SwipeRefresh(state = swipeRefreshState, onRefresh = {
+                viewModel.onEvent(SearchPhotosEvent.Refresh)
+            }) {
                 LazyColumn(
                     modifier = Modifier.padding(10.dp)
                 ) {
-                    items(photos.size) { i ->
-                        val photo = photos[i]
+                    items(uiState.photos.size) { i ->
+                        val photo = uiState.photos[i]
 
                         Box(
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.CenterEnd
                         ) {
-                            PhotoItem(
-                                photo = photo,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate(route = "$SHOW_DETAIL_SCREEN/${photo.id}")
-                                    }
-                                    .padding(8.dp)
-                            )
+                            PhotoItem(photo = photo, modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navController.navigate(route = "$PHOTO_DETAIL_SCREEN/${photo.id}")
+                                }
+                                .padding(8.dp))
                         }
-                        if (i < photos.size) {
+                        if (i < uiState.photos.size) {
                             Divider(
                                 modifier = Modifier.padding(
                                     vertical = 16.dp
@@ -113,26 +102,21 @@ fun PhotoListScreen(
 
 @Composable
 fun TopAppBarContentForListOfShows(navController: NavController) {
-    TopAppBar(
-        title = {
-            Text(
-                text = "List of Pictures",
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Center,
+    TopAppBar(title = {
+        Text(
+            text = "List of Pictures",
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
+        )
+    }, backgroundColor = MaterialTheme.colors.background, elevation = 4.dp, navigationIcon = {
+        IconButton(onClick = {
+            navController.navigateUp()
+        }) {
+            Icon(
+                Icons.Filled.ArrowBack,
+                contentDescription = "Go back",
             )
-        },
-        backgroundColor = MaterialTheme.colors.background,
-        elevation = 4.dp,
-        navigationIcon = {
-            IconButton(onClick = {
-                navController.navigateUp()
-            }) {
-                Icon(
-                    Icons.Filled.ArrowBack,
-                    contentDescription = "Go back",
-                )
-            }
         }
-    )
+    })
 }

@@ -16,13 +16,13 @@ import com.priyanka.flickerybs.R
 
 @Composable
 fun SettingScreen(
-    ) {
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(color = MaterialTheme.colors.background) {
-           Column() {
-               TopAppBarContent()
-               SettingList()
-           }
+            Column {
+                TopAppBarContent()
+                SettingList()
+            }
 
         }
     }
@@ -39,7 +39,10 @@ fun SettingList() {
     ) {
 
         item {
-            Box(modifier = Modifier.fillMaxWidth().padding(start=60.dp, top=10.dp),
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 60.dp, top = 10.dp),
 
                 ) {
                 Text(text = "About the App")

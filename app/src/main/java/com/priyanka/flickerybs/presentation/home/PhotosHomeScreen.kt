@@ -1,18 +1,19 @@
 package com.priyanka.flickerybs.presentation.home
 
-import android.annotation.SuppressLint
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -20,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,10 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.priyanka.flickerybs.R.*
 import com.priyanka.flickerybs.core.components.CustomCircularProgressBar
-import com.priyanka.flickerybs.core.components.navigation.SHOWLIST_SCREEN
-import com.priyanka.flickerybs.core.components.navigation.SHOW_DETAIL_SCREEN
+import com.priyanka.flickerybs.core.components.navigation.PHOTOLIST_SCREEN
+import com.priyanka.flickerybs.core.components.navigation.PHOTO_DETAIL_SCREEN
 import com.priyanka.flickerybs.domain.model.Photo
 
 
@@ -42,10 +41,10 @@ fun PhotosHomeScreen(
 ) {
 
     val state by viewModel.uistate.collectAsState()
-    val photos = state.photos
 
     // Launch a coroutine bound to the scope of the composable, viewModel relaunched
-    if (photos.isNotEmpty()) {
+
+    if (state.photos.isNotEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -55,12 +54,7 @@ fun PhotosHomeScreen(
                     horizontal = 16.dp
                 )
             )
-            ActionToolbar(
-                title = "Flickr Pictures",
-                modifier = Modifier.wrapContentSize(Alignment.TopEnd),
-                //endActionIcon = R.drawable.baseline_settings_24,
-            endAction = {}
-            )
+            com.priyanka.flickerybs.core.components.TopAppBarContent()
 
             Spacer(modifier = Modifier.padding(vertical = 16.dp))
 
@@ -77,7 +71,7 @@ fun PhotosHomeScreen(
                 Spacer(Modifier.weight(1f))
                 Text(text = "More", style = TextStyle(color = Color.Red, fontSize = 16.sp),
                     modifier = Modifier.clickable {
-                        navController.navigate(route = SHOWLIST_SCREEN)
+                        navController.navigate(route = PHOTOLIST_SCREEN)
                     }
                 )
             }
@@ -86,20 +80,18 @@ fun PhotosHomeScreen(
                 modifier = Modifier
                     .padding(12.dp)
             ) {
-                items(photos.size) { i ->
-                    val photo = photos[i]
-                    //FavoriteButton
+                itemsIndexed(state.photos.drop(1)) { index, it ->
+                    val photo = state.photos[index]
                     PhotoItem_(
-//                        viewModel = viewModel,
                         photo = photo,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                navController.navigate(route = "$SHOW_DETAIL_SCREEN/${photo.id}")
+                                navController.navigate(route = "$PHOTO_DETAIL_SCREEN/${index + 1}")
                             }
                     )
 
-                    if (i < photos.size) {
+                    if (index < state.photos.size) {
                         Divider(
                             modifier = Modifier.padding(
                                 horizontal = 10.dp
@@ -122,7 +114,7 @@ fun PhotosHomeScreen(
                 Spacer(Modifier.weight(1f))
                 Text(text = "More", style = TextStyle(color = Color.Red, fontSize = 16.sp),
                     modifier = Modifier.clickable {
-                        navController.navigate(route = SHOWLIST_SCREEN)
+                        navController.navigate(route = PHOTOLIST_SCREEN)
                     }
                 )
             }
@@ -132,17 +124,17 @@ fun PhotosHomeScreen(
                 modifier = Modifier
                     .padding(12.dp)
             ) {
-                items(photos.size) { i ->
-                    val photo = photos[i]
+                itemsIndexed(state.photos.drop(1)) { index, it ->
+                    val photo = state.photos[index]
                     PhotoSmallItem(
                         photo = photo,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                navController.navigate(route = "${SHOW_DETAIL_SCREEN}/${photo.id}")
+                                navController.navigate(route = "${PHOTO_DETAIL_SCREEN}/${index + 1}")
                             }
                     )
-                    if (i < photos.size) {
+                    if (index < state.photos.size) {
                         Divider(
                             modifier = Modifier.padding(
                                 horizontal = 8.dp
@@ -152,8 +144,7 @@ fun PhotosHomeScreen(
                 }
             }
         }
-    }
-    else {
+    } else {
         if (state.error.isNotBlank()) {
             Text(
                 text = state.error,
@@ -208,31 +199,6 @@ fun PhotoSmallItem(
 
 }
 
-
-@Composable
-fun ActionToolbar(
-    @SuppressLint("SupportAnnotationUsage")
-    @StringRes title: String,
-    modifier: Modifier,
-    endAction: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text(
-                stringResource(title.length),
-                color = Color.White
-            )
-        },
-        backgroundColor = toolbarColor(),
-        modifier = Modifier.padding(10.dp),
-        elevation = 4.dp,
-        actions = {
-            Box(modifier) {
-                IconButton(onClick = endAction) {}
-            }
-        }
-    )
-}
 
 @Composable
 private fun toolbarColor(darkTheme: Boolean = isSystemInDarkTheme()): Color {

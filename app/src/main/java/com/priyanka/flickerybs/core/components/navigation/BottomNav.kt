@@ -32,11 +32,18 @@ fun BottomNav(navController: NavController) {
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(painterResource(id = item.icon), contentDescription = item.title,
-                    modifier = Modifier.size(30.dp)
-                ) },
-                label = { Text(text = item.title,
-                    fontSize = 16.sp) },
+                icon = {
+                    Icon(
+                        painterResource(id = item.icon), contentDescription = item.title,
+                        modifier = Modifier.size(30.dp)
+                    )
+                },
+                label = {
+                    Text(
+                        text = item.title,
+                        fontSize = 16.sp
+                    )
+                },
                 selectedContentColor = Color.White,
                 unselectedContentColor = Color.White.copy(0.6f),
                 alwaysShowLabel = true,
@@ -46,7 +53,7 @@ fun BottomNav(navController: NavController) {
 
                         navController.graph.startDestinationRoute?.let { screen_route ->
                             popUpTo(screen_route) {
-                               // saveState = true
+                                // saveState = true
                             }
                         }
                         launchSingleTop = true
@@ -58,8 +65,8 @@ fun BottomNav(navController: NavController) {
     }
 }
 
-sealed class BottomNavItem(var title:String, var icon:Int, var screen_route:String){
+sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: String) {
     object Home : BottomNavItem("Home", R.drawable.baseline_home_24, Home_SCREEN)
     object Search : BottomNavItem("Search", R.drawable.baseline_search_24, SEARCH_SCREEN)
-    object Setting: BottomNavItem("Setting",R.drawable.baseline_settings_24, SETTING_SCREEN)
+    object Setting : BottomNavItem("Setting", R.drawable.baseline_settings_24, SETTING_SCREEN)
 }

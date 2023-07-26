@@ -12,8 +12,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomCircularProgressBar(){
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth().padding(top = 50.dp, bottom = 50.dp)) {
+fun CustomCircularProgressBar() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 50.dp, bottom = 50.dp)
+    ) {
 
         CircularProgressIndicator(
             modifier = Modifier.size(100.dp),

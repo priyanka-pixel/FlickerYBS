@@ -2,7 +2,6 @@ package com.priyanka.flickerybs.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.priyanka.flickerybs.di.AppModule
 import com.priyanka.flickerybs.domain.repository.PhotoRepo
 import com.priyanka.flickerybs.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

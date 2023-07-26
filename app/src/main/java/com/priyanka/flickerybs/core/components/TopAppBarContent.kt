@@ -29,6 +29,6 @@ fun TopAppBarContent() {
         },
         modifier = Modifier.padding(10.dp),
         backgroundColor = MaterialTheme.colors.background,
-        elevation = 4.dp,
+        elevation = 2.dp,
     )
 }

@@ -1,7 +1,5 @@
 package com.priyanka.flickerybs.data.remote.dto
 
-import com.google.gson.annotations.SerializedName
-
 data class PhotoResponse(
     val id: String,
     val owner: String,
@@ -10,5 +8,5 @@ data class PhotoResponse(
     val farm: Int,
     val title: String,
     val tags: String,
-
+    val description: String
 )
