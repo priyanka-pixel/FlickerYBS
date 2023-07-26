@@ -18,7 +18,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.priyanka.flickerybs.core.components.navigation.BottomNav
 import com.priyanka.flickerybs.core.components.navigation.NavGraph
-import com.priyanka.flickerybs.presentation.favorite_pics.FavoritePhotoViewModel
 import com.priyanka.flickerybs.presentation.search.SearchPhotoViewModel
 import com.priyanka.flickerybs.ui.theme.FlickerYBSTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,14 +43,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Photos() {
     val navController = rememberNavController()
-    val   favoritePhotoViewModel: FavoritePhotoViewModel = hiltViewModel()
     val   photoListingViewModel: SearchPhotoViewModel = hiltViewModel()
 
     Scaffold(
         bottomBar = { BottomNav(navController = navController) },
         content = { padding -> Column(modifier = Modifier.padding(padding)){
             NavGraph(navController = navController,
-                favoritePhotoViewModel=favoritePhotoViewModel,
                 photoListingViewModel=photoListingViewModel
             )
         } },

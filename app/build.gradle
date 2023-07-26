@@ -46,6 +46,11 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    lintOptions {
+        warningsAsErrors true
+        enable "InvalidPackage", "UnusedResources", "UnusedIds", "UselessLeaf", "deprecation"
+    }
 }
 
 dependencies {
