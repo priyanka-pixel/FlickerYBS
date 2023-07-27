@@ -6,11 +6,14 @@ Features
 -View most recent photos from the Flickr API.
 -Search for photos based on keywords (tags, title, etc.).
 -Pull to refresh to update the photo list.
+
+
 ![Screenshot 2023-07-27 022802](https://github.com/priyanka-pixel/FlickerYBS/assets/59287277/a2980ce0-5243-439b-8064-d24c5db412d8)
 ![Screenshot 2023-07-27 022845](https://github.com/priyanka-pixel/FlickerYBS/assets/59287277/08852414-bc69-4ba6-bb4b-c9d5fdce397b)
 ![Screenshot 2023-07-27 023000](https://github.com/priyanka-pixel/FlickerYBS/assets/59287277/1d77c07e-9553-4f06-852c-d278a110e0fe)
 ![Screenshot 2023-07-27 023102](https://github.com/priyanka-pixel/FlickerYBS/assets/59287277/ad2e408d-ed5e-4215-8d8a-e3ec692603e6)
 ![Screenshot 2023-07-27 023142](https://github.com/priyanka-pixel/FlickerYBS/assets/59287277/0acfbf35-af8c-4bde-8179-3873b316fe6c)
+
 
 #Architecture
 
@@ -40,7 +43,9 @@ The app follows the Model-View-ViewModel (MVVM) architecture pattern. It uses An
 #API Key
 
 To use the Flickr API, you need to obtain an API key from the Flickr Developer portal and add it to the ApiService class in the BASE_URL constant.
+
 const val BASE_URL = "https://api.flickr.com/services/rest/"
+
 const val FLICKR_API_KEY = "YOUR_FLICKR_API_KEY_HERE"
 
 
