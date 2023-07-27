@@ -15,7 +15,7 @@ class FlickrRepositoryImpl @Inject constructor(private val apiService: ApiServic
     override suspend fun getRecentPhotos(): Flow<Resource<List<Photo>>> = flow {
         emit(Resource.Loading())
         val photos = try {
-            apiService.fetchImages().photos.photo
+            apiService.fetchImages().photos?.photo
         } catch (e: IOException) {
             e.printStackTrace()
             emit(Resource.Error("Couldn't load data"))
@@ -37,13 +37,10 @@ class FlickrRepositoryImpl @Inject constructor(private val apiService: ApiServic
         }
     }
 
-    override suspend fun searchPhotos(
-        searchText: String,
-        userId: String?
-    ): Flow<Resource<List<Photo>>> = flow {
+    override suspend fun searchPhotos(searchText: String): Flow<Resource<List<Photo>>> = flow {
         emit(Resource.Loading())
         val photos = try {
-            apiService.searchPhotos(searchText, userId).photos.photo
+            apiService.searchPhotos(searchText).photos?.photo
         } catch (e: IOException) {
             e.printStackTrace()
             emit(Resource.Error("Couldn't load data"))

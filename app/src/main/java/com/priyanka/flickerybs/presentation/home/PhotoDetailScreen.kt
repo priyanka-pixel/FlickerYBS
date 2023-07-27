@@ -21,7 +21,8 @@ import com.priyanka.flickerybs.ui.theme.DarkBlue
 
 @Composable
 fun PhotoDetailScreen(
-    viewModel: PhotosViewModel = hiltViewModel(), navController: NavController, index: Int
+    viewModel: PhotosViewModel = hiltViewModel(), navController: NavController,
+    index: Int
 ) {
     val state = viewModel.uistate.collectAsState().value.photos[index]
     Column(

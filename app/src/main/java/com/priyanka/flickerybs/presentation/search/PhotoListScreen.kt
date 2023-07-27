@@ -3,6 +3,7 @@ package com.priyanka.flickerybs.presentation.search
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -25,7 +26,7 @@ import com.priyanka.flickerybs.core.components.navigation.PHOTO_DETAIL_SCREEN
 
 @Composable
 fun PhotoListScreen(
-    navController: NavController, viewModel: SearchPhotoViewModel = hiltViewModel()
+    navController: NavController, viewModel: SearchPhotoViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val swipeRefreshState = rememberSwipeRefreshState(
@@ -51,20 +52,20 @@ fun PhotoListScreen(
                 LazyColumn(
                     modifier = Modifier.padding(10.dp)
                 ) {
-                    items(uiState.photos.size) { i ->
+                    items(uiState.photos.size) {  i ->
                         val photo = uiState.photos[i]
 
                         Box(
                             modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.CenterEnd
-                        ) {
-                            PhotoItem(photo = photo, modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    navController.navigate(route = "$PHOTO_DETAIL_SCREEN/${photo.id}")
-                                }
-                                .padding(8.dp))
-                        }
+                            contentAlignment = Alignment.CenterEnd )
+                            {
+                        PhotoItem(photo = photo, modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(route = "$PHOTO_DETAIL_SCREEN/${photo.id}")
+                            }
+                            .padding(8.dp))
+                    }
                         if (i < uiState.photos.size) {
                             Divider(
                                 modifier = Modifier.padding(
@@ -85,7 +86,6 @@ fun PhotoListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                //  .align(Alignment.Center)
             )
         }
         if (uiState.isLoading) {

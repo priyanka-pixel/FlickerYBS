@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface PhotoRepo {
     suspend fun getRecentPhotos(): Flow<Resource<List<Photo>>>
     suspend fun searchPhotos(
-        searchText: String,
-        userId: String? = null
+        searchText: String
     ): Flow<Resource<List<Photo>>>
 }

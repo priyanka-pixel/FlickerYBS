@@ -12,8 +12,7 @@ interface ApiService {
 
     @GET("?method=flickr.photos.search&api_key=${FLICKR_API_KEY}&format=json&nojsoncallback=1")
     suspend fun searchPhotos(
-        @Query("text") searchText: String, // Search text (e.g., tags, title, etc.)
-        @Query("user_id") userId: String? = null // Optional parameter for filtering by user
+        @Query("text") searchText: String // Search text (e.g., tags, title, etc.)
     ): FlickerResponse
 
     companion object {
