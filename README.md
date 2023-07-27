@@ -2,8 +2,8 @@
 
 This is a simple Android application that allows users to view photos from the Flickr API. Users can either view the most recent photos or search for specific photos using keywords.
 
-##Features
-###View most recent photos from the Flickr API.
+#Features
+####View most recent photos from the Flickr API.
 ###Search for photos based on keywords (tags, title, etc.).
 ###Pull to refresh to update the photo list.
 
